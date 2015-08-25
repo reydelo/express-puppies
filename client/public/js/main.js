@@ -48,7 +48,7 @@ function getPuppies() {
   });
   results.done(function(results){
     results.forEach(function(puppy){
-    $('#results').append('<p><a href="api/v1/puppy/' + puppy.puppyID + '">' + puppy.puppyName + '</a></p>')
+    $('#results').append('<p><a href="/puppy/' + puppy.puppyID + '">' + puppy.puppyName + '</a></p>')
     })
   });
   results.fail(function(err){
