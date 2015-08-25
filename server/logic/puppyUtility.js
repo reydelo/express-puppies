@@ -11,7 +11,7 @@ function handleSingleGet(puppyID) {
   if (pup.length>0){
     return pup[0];
   } else {
-    return {message: "Puppy ain't existing here"};
+    return {error: "Puppy ain't existing here"};
   }
 }
 
@@ -20,7 +20,7 @@ function handlePost(puppyID, puppyName, puppyAge) {
   var pup = puppyFilter(puppyID);
   // if so - throw an error
   if (pup.length>0){
-    return {message: "Yo! That puppy already exists!"};
+    return {error: "Yo! That puppy already exists!"};
   } else { // if not - create a new instance, return a success
     var newPostPuppy = new puppyData.Puppy(
       parseInt(puppyID),
@@ -28,18 +28,18 @@ function handlePost(puppyID, puppyName, puppyAge) {
       parseInt(puppyAge)
     );
     tempArray.push(newPostPuppy);
-    return {message: "success", puppy:newPostPuppy};
+    return {message: "Puppy Successfully Created!", puppy:newPostPuppy};
   }
 }
 
 function handlePut(puppyID, submittedBodyObject) {
   // test if any data is passed in
   if(Object.keys(submittedBodyObject).length === 0) {
-    return {message: "Please enter something to change!"};
+    return {error: "Please enter something to change!"};
   }
   // validating if the puppy's age is a number
   if(submittedBodyObject.puppyAge && isNaN(parseInt(submittedBodyObject.puppyAge))) {
-    return {message: "Please enter a number for the puppy's age!"};
+    return {error: "Please enter a number for the puppy's age!"};
   }
   var pup = puppyFilter(puppyID);
   if (pup.length>0){
