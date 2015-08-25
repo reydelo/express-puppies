@@ -3,6 +3,7 @@
 $(document).on('ready', function() {
   $('#success-message').hide();
   $('#failure-message').hide();
+  getPuppies();
 });
 
 $('form').on('submit', function(event) {
@@ -10,10 +11,10 @@ $('form').on('submit', function(event) {
   var puppyName = $('#puppy-name').val();
   var puppyAge = $('#puppy-age').val();
   var puppyID = $('#puppy-id').val();
-  getDogs(puppyID, puppyName, puppyAge);
+  postPuppies(puppyID, puppyName, puppyAge);
 });
 
-function getDogs(puppyID, puppyName, puppyAge) {
+function postPuppies(puppyID, puppyName, puppyAge) {
   var results = $.ajax({
     method: 'POST',
     url: "/api/v1/puppies",
@@ -30,10 +31,27 @@ function getDogs(puppyID, puppyName, puppyAge) {
     $('#puppy-age').val('');
     $('#puppy-id').val('');
     $('#success-message').show().html(results.message);
+    $('#results').html('');
+    getPuppies();
   });
 
   results.fail(function(err) {
     $('#failure-message').show().html(err.responseJSON);
     $('#success-message').hide();
+  });
+};
+
+function getPuppies() {
+  var results = $.ajax({
+    method: 'GET',
+    url: "/api/v1/puppies",
+  });
+  results.done(function(results){
+    results.forEach(function(puppy){
+    $('#results').append('<p>' + puppy.puppyName + '</p>')
+    })
+  });
+  results.fail(function(err){
+    console.log(err)
   });
 };
